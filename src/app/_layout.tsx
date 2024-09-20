@@ -10,7 +10,6 @@ import {
 import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 
 import "../styles/global.css";
-import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -47,18 +46,18 @@ export default function Layout() {
 						headerShown: false,
 					}}
 				/>
-				{/* <Stack.Screen 
-          name="create/index" 
-          options={{
-            headerShown: false
-          }}
-        />      
-        <Stack.Screen 
-          name="nutrition/index" 
-          options={{
-            headerShown: false
-          }}
-        />       */}
+				<Stack.Screen
+					name="create/index"
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="nutrition/index"
+					options={{
+						headerShown: false,
+					}}
+				/>
 			</Stack>
 		</QueryClientProvider>
 	);

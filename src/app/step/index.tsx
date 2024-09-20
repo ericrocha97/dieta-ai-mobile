@@ -5,6 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Header from "../../components/header";
 import Input from "../../components/input";
+import { router } from "expo-router";
+import { useDataStore } from "../../store/data";
+import { useEffect } from "react";
 
 const schema = z.object({
 	name: z.string().min(2, { message: "O nome é obrigatório" }),
@@ -20,13 +23,33 @@ export default function Step() {
 		control,
 		handleSubmit,
 		formState: { errors, isValid },
+		reset,
 	} = useForm<FormData>({
 		resolver: zodResolver(schema),
 	});
 
+	const setPageOne = useDataStore((state) => state.setPageOne);
+	const user = useDataStore((state) => state.user);
+
+	useEffect(() => {
+		reset({
+			name: user.name || "",
+			weight: user.weight || "",
+			age: user.age || "",
+			height: user.height || "",
+		});
+	}, [user, reset]);
+
 	function handleCreate(data: FormData) {
-		console.log("PASSANDO DADOS DA PAGINA 1");
-		console.log(data);
+		setPageOne({
+			name: data.name,
+			weight: data.weight,
+			age: data.age,
+			height: data.height,
+		});
+
+		router.push("/create");
+		reset();
 	}
 
 	return (
@@ -76,7 +99,7 @@ export default function Step() {
 				/>
 
 				<Pressable
-					className="bg-blue h-11 justify-center items-center rounded mt-6"
+					className="bg-blue w-[100%] h-10 rounded justify-center items-center mt-4"
 					onPress={handleSubmit(handleCreate)}
 				>
 					<Text className="text-white text-xl font-alt">Avançar</Text>
